@@ -21,7 +21,7 @@
 
 已在一台 Windows 11 25H2 电脑和一套 DJI 设备上实际验证：
 
-- 发射器：**DJI Mic Mini 2S**；接收器：**DJI Mic Series Mobile Receiver（大疆麦克风系列手机版接收器）**。型号名称由使用者确认。
+- 发射器：**DJI Mic Mini 2S**；接收器：**DJI Mic Series Mobile Receiver（大疆麦克风系列手机版接收器）**。
 - Windows 枚举名称 `Wireless Mic Rx`，USB VID/PID `2CA3:4011`。系统显示名称和 VID/PID 不等于唯一的产品型号标识。
 - 发射器短按配对键发送三字节 HID 报文：按下 `06-01-00`，释放 `06-00-00`。
 - 按键能打开 Windows 语音输入，用户确认可以输入文字。
