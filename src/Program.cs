@@ -7,7 +7,7 @@ using System.Collections.Generic;
 [assembly: System.Reflection.AssemblyTitle("DJI 麦克风语音输入")]
 [assembly: System.Reflection.AssemblyDescription("DJI 配对键启动 Windows 语音输入，并过滤附带的音量事件")]
 [assembly: System.Reflection.AssemblyProduct("DJI 麦克风语音输入")]
-[assembly: System.Reflection.AssemblyVersion("1.1.0.0")]
+[assembly: System.Reflection.AssemblyVersion("1.1.1.0")]
 
 class Probe : Form {
     [StructLayout(LayoutKind.Sequential)] struct Device { public ushort page, usage; public uint flags; public IntPtr window; }
@@ -57,6 +57,7 @@ class Probe : Form {
     readonly string log;
     readonly bool map;
     NotifyIcon tray;
+    System.Drawing.Icon appIcon;
     bool down;
     readonly System.Diagnostics.Stopwatch debounce = System.Diagnostics.Stopwatch.StartNew();
     long lastPress = -1000;
@@ -93,7 +94,12 @@ class Probe : Form {
             volumeTimer=new Timer { Interval=20 };
             volumeTimer.Tick += delegate { FlushVolume(false); };
             volumeTimer.Start();
-            Log("Version 1.1.0; Volume filtering enabled: hardware AND injected events; 100ms queue, 40ms DJI correlation");
+            Log("Version 1.1.1; Volume filtering enabled: hardware AND injected events; 100ms queue, 40ms DJI correlation");
+            using(var stream=System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("AppIcon.ico")) {
+                using(var embedded=new System.Drawing.Icon(stream,32,32)) appIcon=(System.Drawing.Icon)embedded.Clone();
+            }
+            Icon=appIcon;
+            Log("Custom embedded DJI wrench icon loaded for window and tray");
             var menu=new ContextMenuStrip();
             menu.Items.Add("DJI 麦克风语音输入（运行中）").Enabled=false;
             var startup=new ToolStripMenuItem("登录 Windows 时自动启动") { Checked=File.Exists(StartupLink) };
@@ -103,11 +109,11 @@ class Probe : Form {
             };
             menu.Items.Add(startup);
             menu.Items.Add("使用说明",null,delegate {
-                MessageBox.Show("点击文本框，再短按 DJI 发射器配对键即可启动 Windows 语音输入。\n\n接收器需通过 USB 连接。语音识别需要联网。\n\n可通过此托盘菜单设置登录自启动或退出程序。设置自启动后请保留 EXE 所在位置。\n\n版本 1.1.0 · 本机已验证 DJI 2CA3:4011", "DJI 麦克风语音输入");
+                MessageBox.Show("点击文本框，再短按 DJI 发射器配对键即可启动 Windows 语音输入。\n\n仅确认使用者手中的 DJI Mic Mini 2S 发射器＋DJI Mic Series Mobile Receiver（手机版接收器）组合可用。其他型号可以尝试，但不保证可用或返回相同报文。接收器通过 USB 连接电脑，语音识别需要联网。\n\n可通过此托盘菜单设置登录自启动或退出程序。设置自启动后请保留 EXE 所在位置。\n\n版本 1.1.1 · DJI 2CA3:4011 · 非官方工具", "DJI 麦克风语音输入");
             });
             menu.Items.Add("退出 DJI 麦克风语音输入",null,delegate { Application.Exit(); });
-            tray=new NotifyIcon { Icon=System.Drawing.SystemIcons.Application, Text="DJI 麦克风语音输入 · 配对键 → Win+H", ContextMenuStrip=menu, Visible=true };
-            Application.ApplicationExit += delegate { volumeTimer.Stop(); UnhookWindowsHookEx(hook); FlushVolume(true); Log("STOP"); tray.Visible=false; tray.Dispose(); };
+            tray=new NotifyIcon { Icon=appIcon, Text="DJI 麦克风语音输入 · 配对键 → Win+H", ContextMenuStrip=menu, Visible=true };
+            Application.ApplicationExit += delegate { volumeTimer.Stop(); UnhookWindowsHookEx(hook); FlushVolume(true); Log("STOP"); tray.Visible=false; tray.Dispose(); appIcon.Dispose(); };
             return;
         }
         var timer = new Timer { Interval=300000 };

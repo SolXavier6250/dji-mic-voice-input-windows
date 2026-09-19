@@ -1,12 +1,14 @@
 # DJI 麦克风语音输入 · Windows
 
+<img src="assets/app-icon.png" alt="DJI 麦克风语音输入：DJI 标志与扳手角标" width="128">
+
 把 DJI Mic 发射器的配对键变成 Windows 语音输入按钮：短按配对键，调用 `Win+H`，同时过滤附带的音量增加事件。
 
 ## 下载与使用
 
 从 [Releases](https://github.com/sumuxi6250-oss/dji-mic-voice-input-windows/releases/latest) 下载 `DJI-Voice-Input-Windows.exe`，放在固定位置后双击运行。程序名称和托盘菜单为 **DJI 麦克风语音输入**。
 
-1. 用 USB 数据线将 DJI 接收器连接电脑，并让发射器与接收器配对。
+1. 将 **DJI Mic Series Mobile Receiver（大疆麦克风系列手机版接收器）**通过 USB 接入电脑，并让发射器与该接收器配对。本项目实际验证的发射器为 **DJI Mic Mini 2S**。
 2. 确认 Windows 使用所需麦克风，并能通过键盘 `Win+H` 正常听写。
 3. 双击 EXE，点击任意支持输入的文本框，然后短按发射器配对键。
 4. 右键系统托盘图标，可以查看说明、设置“登录 Windows 时自动启动”或退出。
@@ -19,12 +21,13 @@
 
 已在一台 Windows 11 25H2 电脑和一套 DJI 设备上实际验证：
 
-- 接收器名称 `Wireless Mic Rx`，USB VID/PID `2CA3:4011`。
+- 发射器：**DJI Mic Mini 2S**；接收器：**DJI Mic Series Mobile Receiver（大疆麦克风系列手机版接收器）**。型号名称由使用者确认。
+- Windows 枚举名称 `Wireless Mic Rx`，USB VID/PID `2CA3:4011`。系统显示名称和 VID/PID 不等于唯一的产品型号标识。
 - 发射器短按配对键发送三字节 HID 报文：按下 `06-01-00`，释放 `06-00-00`。
 - 按键能打开 Windows 语音输入，用户确认可以输入文字。
 - 附带的音量增加事件被过滤；其他音量事件被放行。
 
-**不是所有 DJI 型号都已验证。** 仅按 VID/PID 与实测报文匹配；蓝牙直连、其他接收器和其他固件未验证。不自动发送输入的文字，也不保证重复按键在所有 Windows 版本中有相同的开始/停止听写行为。
+**目前仅确认使用者手中的 DJI Mic Mini 2S 发射器搭配上述手机版接收器可用。其他发射器或接收器型号可以尝试，但不保证可用，也不保证返回相同的按键报文。** 程序仅按 VID/PID 与本机实测报文匹配，设备编号相同也不代表报文一定相同；若格式不同，可能需要重新捕获报文并调整代码。蓝牙直连、其他固件未验证。不自动发送输入的文字，也不保证重复按键在所有 Windows 版本中有相同的开始/停止听写行为。
 
 ## 工作方式与限制
 
@@ -56,4 +59,4 @@
 - [Johnixr/dji-mic-dictation](https://github.com/Johnixr/dji-mic-dictation)：macOS 上的 DJI 听写流程。
 - [CYBER-CITY-MEDIA/air-mouse-remote-windows](https://github.com/CYBER-CITY-MEDIA/air-mouse-remote-windows)：Windows Raw Input 到 Win+H 的实现参考。
 
-与 DJI、Microsoft 无隶属关系。MIT License，详见 [LICENSE](LICENSE)。
+与 DJI、Microsoft 无隶属关系。代码采用 MIT License，详见 [LICENSE](LICENSE)。图标中的 DJI 标志及商标不属于 MIT 授权范围，详见 [图标声明](assets/NOTICE.md)。
