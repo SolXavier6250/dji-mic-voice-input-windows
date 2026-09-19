@@ -6,7 +6,7 @@
 
 ## 下载与使用
 
-从 [Releases](https://github.com/sumuxi6250-oss/dji-mic-voice-input-windows/releases/latest) 下载 `DJI-Voice-Input-Windows.exe`，放在固定位置后双击运行。程序名称和托盘菜单为 **DJI 麦克风语音输入**。
+从 [Releases](https://github.com/SolXavier6250/dji-mic-voice-input-windows/releases/latest) 下载 `DJI-Voice-Input-Windows.exe`，放在固定位置后双击运行。程序名称和托盘菜单为 **DJI 麦克风语音输入**。
 
 1. 将 **DJI Mic Series Mobile Receiver（大疆麦克风系列手机版接收器）**通过 USB 接入电脑，并让发射器与该接收器配对。本项目实际验证的发射器为 **DJI Mic Mini 2S**。
 2. 确认 Windows 使用所需麦克风，并能通过键盘 `Win+H` 正常听写。
